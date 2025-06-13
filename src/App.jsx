@@ -1,8 +1,7 @@
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Landing from './landing/landing'
-import Discussion from './discussion/discussion'
-import Chatbot from './chatbot/chatbot'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Landing from "./landing/landing";
+import Discussion from "./discussion/discussion";
+import Chatbot from "./chatbot/chatbot";
 
 function App() {
   return (
@@ -13,7 +12,7 @@ function App() {
         <Route path="/discussion" element={<Discussion />} />
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

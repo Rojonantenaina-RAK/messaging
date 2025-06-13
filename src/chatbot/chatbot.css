@@ -1,0 +1,8 @@
+.chatbot-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background: linear-gradient(135deg, #4CAF50 0%, #CDDC39 100%); */
+  background-color: #fff;
+}
