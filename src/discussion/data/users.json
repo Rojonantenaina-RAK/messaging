@@ -1,27 +1,32 @@
 {
-    "Rojo Nantenaina": {
+    "user1": {
+        "name": "Rojo Nantenaina",
         "email": "rojo.rak38@gmail.com",
         "password": "123456789",
-        "photo": 1
+        "photo": "Avatar1.png"
     },
-    "Toky Raph": {
+    "user2": {
+        "name": "Toky Raph",
         "email": "toky.raph@gmail.com",
         "password": "123456789",
-        "photo": 1
+        "photo": "Avatar6.png"
     },
-    "Lady Jenny": {
+    "user3": {
+        "name": "Lady Jenny",
         "email": "lady.jenny@gmail.com",
         "password": "123456789",
-        "photo": 1
+        "photo": "Avatar4.png"
     },
-    "Jeremia Nantenaina": {
+    "user4": {
+        "name": "Nantenaina Jeremiah",
         "email": "jeremia.nantenaina@gmail.com",
         "password": "123456789",
-        "photo": 1
+        "photo": "Avatar2.png"
     },
-    "Denis": {
+    "user5": {
+        "name": "Denis",
         "email": "denis@gmail.com",
         "password": "123456789",
-        "photo": 1
+        "photo": "Avatar5.png"
     }
 }
