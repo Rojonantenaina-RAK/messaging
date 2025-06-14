@@ -12,21 +12,18 @@ const ChatBot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check user's preferred color scheme
     return (
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
     );
   });
+  const [currentLanguage, setCurrentLanguage] = useState("fr");
   const messagesEndRef = useRef(null);
   const messageListRef = useRef(null);
 
-  // Apply dark/light mode to document root
   useEffect(() => {
     document.documentElement.classList.toggle("dark-mode", isDarkMode);
     document.documentElement.classList.toggle("light-mode", !isDarkMode);
-
-    // Save preference to localStorage
     localStorage.setItem("darkMode", isDarkMode);
   }, [isDarkMode]);
 
@@ -45,20 +42,59 @@ const ChatBot = () => {
     setMessages((prev) => [...prev, newMessage]);
     setIsLoading(true);
 
-    // Simulate AI response after delay
-    setTimeout(() => {
-      const aiResponse = {
-        text: "Voici une réponse simulée de l'IA. Dans une application réelle, cela proviendrait d'un modèle d'IA.",
-        sender: "bot",
-      };
-      setMessages((prev) => [...prev, aiResponse]);
-      setIsLoading(false);
-    }, 5500);
+    try {
+      // Traduire le message en français pour le traitement (si nécessaire)
+      const messageToProcess =
+        currentLanguage !== "fr" ? await translateText(message, "fr") : message;
+
+      // Simuler le traitement de l'IA
+      setTimeout(async () => {
+        const aiResponseText =
+          "Voici une réponse simulée de l'IA. Dans une application réelle, cela proviendrait d'un modèle d'IA.";
+
+        // Traduire la réponse dans la langue sélectionnée si nécessaire
+        const translatedResponse =
+          currentLanguage !== "fr"
+            ? await translateText(aiResponseText, currentLanguage)
+            : aiResponseText;
+
+        const aiResponse = {
+          text: translatedResponse,
+          sender: "bot",
+        };
+
+        setMessages((prev) => [...prev, aiResponse]);
+        setIsLoading(false);
+      }, 1500);
+    } catch (error) {
+      console.error("Translation error:", error);
+      // En cas d'erreur, envoyer la réponse en français
+      setTimeout(() => {
+        const aiResponse = {
+          text: "Voici une réponse simulée de l'IA. Dans une application réelle, cela proviendrait d'un modèle d'IA.",
+          sender: "bot",
+        };
+        setMessages((prev) => [...prev, aiResponse]);
+        setIsLoading(false);
+      }, 1500);
+    }
   };
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
+
+  const handleLanguageChange = (lang) => {
+    setCurrentLanguage(lang);
+    localStorage.setItem("language", lang);
+  };
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("language");
+    if (savedLanguage) {
+      setCurrentLanguage(savedLanguage);
+    }
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -81,6 +117,7 @@ const ChatBot = () => {
         isCollapsed={isSidebarCollapsed}
         toggleCollapse={toggleSidebar}
         isDarkMode={isDarkMode}
+        currentLanguage={currentLanguage}
       />
       <ChatContainer isDarkMode={isDarkMode}>
         <button className="toggle-sidebar" onClick={toggleSidebar}>
@@ -90,6 +127,8 @@ const ChatBot = () => {
           title="IKOM Chat"
           isDarkMode={isDarkMode}
           toggleDarkMode={toggleDarkMode}
+          currentLanguage={currentLanguage}
+          onLanguageChange={handleLanguageChange}
         />
         <MessageList
           messages={messages}
@@ -97,11 +136,13 @@ const ChatBot = () => {
           ref={messageListRef}
           scrollRef={messagesEndRef}
           isDarkMode={isDarkMode}
+          currentLanguage={currentLanguage}
         />
         <MessageInput
           onSendMessage={handleSendMessage}
           isLoading={isLoading}
           isDarkMode={isDarkMode}
+          currentLanguage={currentLanguage}
         />
       </ChatContainer>
     </div>

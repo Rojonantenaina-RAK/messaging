@@ -1,0 +1,101 @@
+{
+  "fr": {
+    "newChat": "Nouveau chat",
+    "user": "Utilisateur",
+    "settings": "Paramètres",
+    "darkMode": "Mode sombre",
+    "language": "Langue",
+    "today": "Aujourd'hui",
+    "writeMessage": "Écrivez un message..."
+  },
+  "en": {
+    "newChat": "New chat",
+    "user": "User",
+    "settings": "Settings",
+    "darkMode": "Dark mode",
+    "language": "Language",
+    "today": "Today",
+    "writeMessage": "Write a message..."
+  },
+  "mg": {
+    "newChat": "Resaka vaovao",
+    "user": "Mpampiasa",
+    "settings": "Fandaharana",
+    "darkMode": "Mode maizina",
+    "language": "Fiteny",
+    "today": "Androany",
+    "writeMessage": "Soraty hafatra..."
+  },
+  "es": {
+    "newChat": "Nuevo chat",
+    "user": "Usuario",
+    "settings": "Ajustes",
+    "darkMode": "Modo oscuro",
+    "language": "Idioma",
+    "today": "Hoy",
+    "writeMessage": "Escribe un mensaje..."
+  },
+  "de": {
+    "newChat": "Neuer Chat",
+    "user": "Benutzer",
+    "settings": "Einstellungen",
+    "darkMode": "Dunkelmodus",
+    "language": "Sprache",
+    "today": "Heute",
+    "writeMessage": "Schreiben Sie eine Nachricht..."
+  },
+  "it": {
+    "newChat": "Nuova chat",
+    "user": "Utente",
+    "settings": "Impostazioni",
+    "darkMode": "Modalità scura",
+    "language": "Lingua",
+    "today": "Oggi",
+    "writeMessage": "Scrivi un messaggio..."
+  },
+  "pt": {
+    "newChat": "Novo chat",
+    "user": "Usuário",
+    "settings": "Configurações",
+    "darkMode": "Modo escuro",
+    "language": "Idioma",
+    "today": "Hoje",
+    "writeMessage": "Escreva uma mensagem..."
+  },
+  "ru": {
+    "newChat": "Новый чат",
+    "user": "Пользователь",
+    "settings": "Настройки",
+    "darkMode": "Темный режим",
+    "language": "Язык",
+    "today": "Сегодня",
+    "writeMessage": "Напишите сообщение..."
+  },
+  "zh": {
+    "newChat": "新聊天",
+    "user": "用户",
+    "settings": "设置",
+    "darkMode": "深色模式",
+    "language": "语言",
+    "today": "今天",
+    "writeMessage": "写消息..."
+  },
+  "ja": {
+    "newChat": "新しいチャット",
+    "user": "ユーザー",
+    "settings": "設定",
+    "darkMode": "ダークモード",
+    "language": "言語",
+    "today": "今日",
+    "writeMessage": "メッセージを書く..."
+  },
+  "ar": {
+    "newChat": "محادثة جديدة",
+    "user": "مستخدم",
+    "settings": "الإعدادات",
+    "darkMode": "الوضع المظلم",
+    "language": "اللغة",
+    "today": "اليوم",
+    "writeMessage": "اكتب رسالة..."
+  }
+}

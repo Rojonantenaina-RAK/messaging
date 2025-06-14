@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "./sidebar.css";
 
-// Importez des icônes (vous pouvez utiliser react-icons ou un autre package)
-import { FiMessageSquare, FiClock, FiStar } from "react-icons/fi";
+import { FiMessageSquare } from "react-icons/fi";
+import { useTranslation } from "../../services/usetranslation";
 
-const Sidebar = ({ isCollapsed, toggleCollapse }) => {
+const Sidebar = ({ isCollapsed, currentLanguage }) => {
+  const { t } = useTranslation(currentLanguage);
   const [conversations, setConversations] = useState([
     {
       id: 1,
@@ -38,13 +39,13 @@ const Sidebar = ({ isCollapsed, toggleCollapse }) => {
     <div className={`sidebar ${isCollapsed ? "sidebar-collapsed" : ""}`}>
       <button className="new-chat-btn">
         <FiMessageSquare className="icon" />
-        {!isCollapsed && "New chat"}
+        {!isCollapsed && t("newChat")}
       </button>
 
       <div className="conversations-section">
-        {!isCollapsed && <div className="time-label">Today</div>}
+        {!isCollapsed && <div className="time-label">{t("today")}</div>}
         {conversations
-          .filter((c) => c.time === "Today")
+          .filter((c) => c.time === t("Today"))
           .map((conv) => (
             <div
               key={conv.id}
@@ -64,7 +65,7 @@ const Sidebar = ({ isCollapsed, toggleCollapse }) => {
             </div>
           ))}
 
-        {!isCollapsed && <div className="time-label">7 Days</div>}
+        {!isCollapsed && <div className="time-label">7 Jours</div>}
         {conversations
           .filter((c) => c.time === "7 Days")
           .map((conv) => (
@@ -91,7 +92,7 @@ const Sidebar = ({ isCollapsed, toggleCollapse }) => {
         <div className="avatar">U</div>
         {!isCollapsed && (
           <div className="user-info">
-            <div className="username">Utilisateur</div>
+            <div className="username">{t("user")}</div>
           </div>
         )}
       </div>

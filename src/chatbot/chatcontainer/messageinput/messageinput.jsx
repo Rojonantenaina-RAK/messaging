@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { FiPaperclip, FiMic, FiSend, FiX } from "react-icons/fi";
-import { FaMicrophoneAlt } from "react-icons/fa";
 import "./messageinput.css";
+import { useTranslation } from "../../../services/usetranslation";
 
-const MessageInput = ({ onSendMessage, isLoading }) => {
+const MessageInput = ({ onSendMessage, isLoading, currentLanguage }) => {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -12,6 +12,7 @@ const MessageInput = ({ onSendMessage, isLoading }) => {
   const inputRef = useRef(null);
   const fileInputRef = useRef(null);
   const recognitionRef = useRef(null);
+  const { t } = useTranslation(currentLanguage);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,36 +54,50 @@ const MessageInput = ({ onSendMessage, isLoading }) => {
       return;
     }
 
-    try {
-      setIsRecording(true);
-      setIsListening(true);
+    // Demander la permission d'utiliser le microphone
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(() => {
+        // Permission accordée, démarrer la reconnaissance vocale
+        setIsRecording(true);
+        setIsListening(true);
 
-      recognitionRef.current = new window.webkitSpeechRecognition();
-      recognitionRef.current.continuous = true;
-      recognitionRef.current.interimResults = true;
-      recognitionRef.current.lang = "fr-FR";
+        recognitionRef.current = new window.webkitSpeechRecognition();
+        recognitionRef.current.continuous = true;
+        recognitionRef.current.interimResults = true; // Activer les résultats intermédiaires
+        recognitionRef.current.lang = "fr-FR";
 
-      recognitionRef.current.onresult = (event) => {
-        const transcript = Array.from(event.results)
-          .map((result) => result[0])
-          .map((result) => result.transcript)
-          .join("");
-        setMessage(transcript);
-      };
+        recognitionRef.current.onresult = (event) => {
+          let interimTranscript = "";
+          let finalTranscript = "";
 
-      recognitionRef.current.onerror = (event) => {
-        handleRecognitionError(event.error);
-      };
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscript += transcript;
+            } else {
+              interimTranscript += transcript;
+            }
+          }
 
-      recognitionRef.current.onend = () => {
-        setIsRecording(false);
-        setIsListening(false);
-      };
+          // Afficher le texte intermédiaire en temps réel
+          setMessage(finalTranscript + interimTranscript);
+        };
 
-      recognitionRef.current.start();
-    } catch (err) {
-      handleRecognitionError(err);
-    }
+        recognitionRef.current.onerror = (event) => {
+          handleRecognitionError(event.error);
+        };
+
+        recognitionRef.current.onend = () => {
+          setIsRecording(false);
+          setIsListening(false);
+        };
+
+        recognitionRef.current.start();
+      })
+      .catch((err) => {
+        handleRecognitionError(err);
+      });
   };
 
   const handleRecognitionError = (error) => {
@@ -209,7 +224,7 @@ const MessageInput = ({ onSendMessage, isLoading }) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Écrivez un message..."
+          placeholder={t("writeMessage")}
           className="message-input"
           disabled={isLoading}
         />

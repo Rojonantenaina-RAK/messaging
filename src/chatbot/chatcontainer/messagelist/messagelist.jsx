@@ -1,10 +1,11 @@
+// messagelist.jsx
 import { forwardRef, useEffect, useState, useRef } from "react";
 import LoadingIndicator from "./loadingindicator";
 import { FiVolume2 } from "react-icons/fi";
 import "./messagelist.css";
 
 const MessageList = forwardRef(
-  ({ messages, isLoading, scrollRef, isDarkMode }, ref) => {
+  ({ messages, isLoading, scrollRef, isDarkMode, currentLanguage }, ref) => {
     const [speaking, setSpeaking] = useState(false);
     const synthRef = useRef(null);
 
@@ -25,7 +26,23 @@ const MessageList = forwardRef(
       }
 
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "fr-FR";
+
+      // Définir la langue en fonction de la sélection
+      const langMap = {
+        fr: "fr-FR",
+        en: "en-US",
+        mg: "mg-MG" | "fr-FR",
+        es: "es-ES",
+        de: "de-DE",
+        it: "it-IT",
+        pt: "pt-PT",
+        ru: "ru-RU",
+        zh: "zh-CN",
+        ja: "ja-JP",
+        ar: "ar-SA",
+      };
+
+      utterance.lang = langMap[currentLanguage] || "fr-FR";
       utterance.rate = 1;
       utterance.pitch = 1;
       utterance.volume = 1;

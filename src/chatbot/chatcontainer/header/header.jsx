@@ -1,9 +1,16 @@
+// header.jsx
 import { useState } from "react";
 import { FiSettings } from "react-icons/fi";
 import SettingsModal from "../setting/setting";
 import "./header.css";
 
-const Header = ({ title, isDarkMode, toggleDarkMode }) => {
+const Header = ({
+  title,
+  isDarkMode,
+  toggleDarkMode,
+  currentLanguage,
+  onLanguageChange,
+}) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
@@ -22,6 +29,8 @@ const Header = ({ title, isDarkMode, toggleDarkMode }) => {
           onClose={() => setIsSettingsOpen(false)}
           isDarkMode={isDarkMode}
           toggleDarkMode={toggleDarkMode}
+          currentLanguage={currentLanguage}
+          onLanguageChange={onLanguageChange}
         />
       )}
     </div>
