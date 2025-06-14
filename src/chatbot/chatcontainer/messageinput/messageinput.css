@@ -1,0 +1,188 @@
+.message-input-container {
+    padding: 1rem;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+    position: sticky;
+    bottom: 0;
+    transition: all 0.3s ease;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    background: rgba(30, 41, 59, 0.8);
+}
+
+.input-actions {
+    display: flex;
+    padding: 0 0.5rem;
+    width: auto;
+}
+
+.action-button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin: 4%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+
+.action-button:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.action-button.recording {
+    position: relative;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.action-button.listening {
+    color: var(--primary-color);
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.action-button.listening:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+}
+
+.message-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    resize: none;
+    max-height: 150px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) transparent;
+}
+
+.message-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.send-button {
+    background: none;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+    margin: 0.5%;
+}
+
+.send-button.active {
+    color: var(--primary-color);
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.send-button:hover:not(:disabled) {
+    color: var(--primary-color);
+    background: rgba(59, 130, 246, 0.2);
+    transform: scale(1.05);
+}
+
+.send-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Fichiers prévisualisés */
+.files-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.file-preview-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    background: var(--message-bot);
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+}
+
+.remove-file-button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.remove-file-button:hover {
+    color: #ef4444;
+}
+
+/* Animation vocale */
+.voice-animation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 24px;
+    width: 24px;
+}
+
+.voice-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    animation: voice-dot-anim 1.4s infinite ease-in-out;
+}
+
+.voice-dot:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.voice-dot:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.voice-dot:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+@keyframes voice-dot-anim {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Error message */
+.recording-error {
+    color: #ef4444;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 4px;
+}

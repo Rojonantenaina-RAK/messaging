@@ -1,48 +1,108 @@
 import { useState, useRef, useEffect } from "react";
-import ChatContainer from "./chatcontainer";
-import Header from "./header";
-import MessageList from "./messagelist";
-import MessageInput from "./messageinput";
-import LoadingIndicator from "./loadingindicator";
-import SideBar from "./sidebar";
+import ChatContainer from "./chatcontainer/chatcontainer";
+import Header from "./chatcontainer/header/header";
+import MessageList from "./chatcontainer/messagelist/messagelist";
+import MessageInput from "./chatcontainer/messageinput/messageinput";
+import SideBar from "./sidebar/sidebar";
+import { FiMenu, FiChevronLeft } from "react-icons/fi";
 import "./chatbot.css";
 
 const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Check user's preferred color scheme
+    return (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
+  });
   const messagesEndRef = useRef(null);
+  const messageListRef = useRef(null);
 
-  // Fonction pour envoyer un message
-  const handleSendMessage = async (message) => {
-    const newMessage = { text: message, sender: "user" };
+  // Apply dark/light mode to document root
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark-mode", isDarkMode);
+    document.documentElement.classList.toggle("light-mode", !isDarkMode);
+
+    // Save preference to localStorage
+    localStorage.setItem("darkMode", isDarkMode);
+  }, [isDarkMode]);
+
+  const handleSendMessage = async (message, files = []) => {
+    const newMessage = {
+      text: message,
+      sender: "user",
+      files: files.map((file) => ({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        url: URL.createObjectURL(file),
+      })),
+    };
+
     setMessages((prev) => [...prev, newMessage]);
     setIsLoading(true);
 
-    // Simuler une réponse de l'IA
+    // Simulate AI response after delay
     setTimeout(() => {
       const aiResponse = {
-        text: "Je suis une réponse simulée de l'IA. Dans une vraie application, je serais générée par un modèle d'IA.",
+        text: "Voici une réponse simulée de l'IA. Dans une application réelle, cela proviendrait d'un modèle d'IA.",
         sender: "bot",
       };
       setMessages((prev) => [...prev, aiResponse]);
       setIsLoading(false);
-    }, 1500);
+    }, 5500);
   };
 
-  // Auto-scroll
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    scrollToBottom();
+  }, [messages, isLoading]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
 
   return (
-    <div className="chatbot-page">
-      <SideBar />
-      <ChatContainer>
-        <Header title="ChatBot" />
-        <MessageList messages={messages} isLoading={isLoading} />
-        {isLoading && <LoadingIndicator />}
-        <div ref={messagesEndRef} />
-        <MessageInput onSendMessage={handleSendMessage} />
+    <div className={`chatbot-page ${isDarkMode ? "dark-mode" : "light-mode"}`}>
+      <SideBar
+        isCollapsed={isSidebarCollapsed}
+        toggleCollapse={toggleSidebar}
+        isDarkMode={isDarkMode}
+      />
+      <ChatContainer isDarkMode={isDarkMode}>
+        <button className="toggle-sidebar" onClick={toggleSidebar}>
+          {isSidebarCollapsed ? <FiMenu /> : <FiChevronLeft />}
+        </button>
+        <Header
+          title="IKOM Chat"
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+        />
+        <MessageList
+          messages={messages}
+          isLoading={isLoading}
+          ref={messageListRef}
+          scrollRef={messagesEndRef}
+          isDarkMode={isDarkMode}
+        />
+        <MessageInput
+          onSendMessage={handleSendMessage}
+          isLoading={isLoading}
+          isDarkMode={isDarkMode}
+        />
       </ChatContainer>
     </div>
   );

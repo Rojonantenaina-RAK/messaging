@@ -1,4 +1,4 @@
-//import "./LoadingIndicator.css";
+import "./loadingindicator.css";
 
 const LoadingIndicator = () => {
   return (
