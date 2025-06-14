@@ -1,3 +1,22 @@
 {
-    
+    "user1": [
+        {"destinataire": "user2", "message": "Salut!"},
+        {"destinataire": "user2", "message": "Salut!"}
+    ],
+    "user2": [
+        {"destinataire": "user1", "message": "Salut!"},
+        {"destinataire": "user1", "message": "Salut!"}
+    ],
+    "user3": [
+        {"destinataire": "user2", "message": "Salut!"},
+        {"destinataire": "user2", "message": "Salut!"}
+    ],
+    "user4": [
+        {"destinataire": "user2", "message": "Salut!"},
+        {"destinataire": "user2", "message": "Salut!"}
+    ],
+    "user5": [
+        {"destinataire": "user2", "message": "Salut!"},
+        {"destinataire": "user2", "message": "Salut!"}
+    ]
 }
