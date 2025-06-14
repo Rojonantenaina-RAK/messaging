@@ -8,3 +8,14 @@ nav .photoProfile {
     width: 35px;
     height: 35px;
 }
+
+nav .photoProfileContainer {
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    background: #2A7B9B;
+    background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
