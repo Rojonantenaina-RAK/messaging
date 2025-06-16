@@ -51,12 +51,12 @@ export default function DisplayMessage({ USERS , currentUser , isDiscussingWith 
                     </h2>
                     <br /><br /><br />
 
-                    <div className="message flex mx-2 my-2">
+                    <div className="messagee flex mx-2 my-2">
                         <img className='rounded-full w-12 h-12' src={avatarMap[USERS[isDiscussingWith]["photo"]]} alt="PDPfriend" />
                         <div className="messageContent break-words bg-gray-300 rounded text-black p-3 max-w-60">Salut !</div>
                     </div>
 
-                    <div className="message flex flex-row-reverse mx-2 my-2">
+                    <div className="messagee flex flex-row-reverse mx-2 my-2">
                         <img className='rounded-full w-12 h-12' src={avatarMap[USERS[isDiscussingWith]["photo"]]} alt="PDPfriend" />
                         <div className="messageContent break-words bg-teal-500 rounded text-white p-3 max-w-60">Salut !</div>
                     </div>
