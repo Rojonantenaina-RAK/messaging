@@ -44,17 +44,7 @@ export default function Discussion() {
 
   const [isDiscussingWith, setIsDiscussingWith] = useState('user2');
 //   const [isDiscussingWith, setIsDiscussingWith] = useState('');
-//   const [messages, setMessages] = useState(
-//     {
-//     "user1": [
-//         // {"destinataire": "user2", "message": "Salut!"},
-//         // {"destinataire": "user2", "message": "Salut!"}
-//     ],
-//     "user2": [],
-//     "user3": [],
-//     "user4": [],
-//     "user5": []
-// })
+
 
   return (
     <div>

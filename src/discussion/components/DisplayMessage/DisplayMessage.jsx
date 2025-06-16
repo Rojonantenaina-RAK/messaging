@@ -1,4 +1,4 @@
-import React from 'react'
+import React , { useState } from 'react'
 
 import photo1 from '../../data/Avatar1.png'
 import photo2 from '../../data/Avatar2.png'
@@ -10,6 +10,24 @@ import photo7 from '../../data/Avatar7.png'
 import photo8 from '../../data/Avatar8.png'
 
 export default function DisplayMessage({ USERS , currentUser , isDiscussingWith }) {
+
+
+  const [messages, setMessages] = useState(
+    {
+    "user1": [
+        {"status": "sent", "sender": "user1", "content": "Hello !"},
+        {"status": "received", "sender": "user4", "content": "Hi !"},
+        {"status": "sent", "sender": "user1", "content": "How are you ?"},
+        {"status": "received", "sender": "user4", "content": "I'm in good shape thanks ..."},
+
+        // {"destinataire": "user2", "message": "Salut!"},
+        // {"destinataire": "user2", "message": "Salut!"}
+    ],
+    "user2": [],
+    "user3": [],
+    "user4": [],
+    "user5": []
+})
 
   const avatarMap = {
     "Avatar1.png": photo1,
@@ -31,9 +49,16 @@ export default function DisplayMessage({ USERS , currentUser , isDiscussingWith 
                         <img className='rounded-full w-12' src={avatarMap[USERS[isDiscussingWith]["photo"]]} alt="PDPfriend" />
                         <span>{USERS[isDiscussingWith]["name"]}</span>
                     </h2>
+                    <br /><br /><br />
 
-                    <div className="message">
-                        <img className='rounded-full w-12' src={avatarMap[USERS[isDiscussingWith]["photo"]]} alt="PDPfriend" />
+                    <div className="message flex mx-2 my-2">
+                        <img className='rounded-full w-12 h-12' src={avatarMap[USERS[isDiscussingWith]["photo"]]} alt="PDPfriend" />
+                        <div className="messageContent break-words bg-gray-300 rounded text-black p-3 max-w-60">Salut !</div>
+                    </div>
+
+                    <div className="message flex flex-row-reverse mx-2 my-2">
+                        <img className='rounded-full w-12 h-12' src={avatarMap[USERS[isDiscussingWith]["photo"]]} alt="PDPfriend" />
+                        <div className="messageContent break-words bg-teal-500 rounded text-white p-3 max-w-60">Salut !</div>
                     </div>
 
                 </div>
