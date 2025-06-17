@@ -1,11 +1,13 @@
 .modal-overlay {
     position: fixed;
-    top: 120%;
-    right: 0;
+    right: 1%;
+    top: 8%;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    min-width: 20%;
+    max-width: 30%;
   }
   
   .settings-modal {

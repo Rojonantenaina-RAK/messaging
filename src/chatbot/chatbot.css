@@ -110,13 +110,13 @@
 }
 
 .light-mode .input-wrapper {
-  background: rgba(226, 232, 240, 0.8);
+  background: rgba(226, 232, 240, 1);
   color: #1e293b;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .light-mode .chat-header {
-  background: rgba(248, 250, 252, 0.8) !important;
+  background: rgba(248, 250, 252, 0.8);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -166,4 +166,16 @@
 
 .light-mode .slider {
   background: var(--text-secondary);
+}
+
+.light-mode .message-list, .light-mode .message-input-container {
+  background: rgb(248, 250, 252);
+}
+
+ .light-mode .chat-container {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+}
+
+.light-mode textarea{
+  color: #0f172a;
 }

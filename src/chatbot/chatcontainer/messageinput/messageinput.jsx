@@ -1,25 +1,29 @@
 import { useState, useEffect, useRef } from "react";
-import { FiPaperclip, FiMic, FiSend, FiX } from "react-icons/fi";
+import { FiMic, FiSend } from "react-icons/fi";
 import "./messageinput.css";
 import { useTranslation } from "../../../services/usetranslation";
 
 const MessageInput = ({ onSendMessage, isLoading, currentLanguage }) => {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [filesToSend, setFilesToSend] = useState([]);
   const [recordingError, setRecordingError] = useState(null);
   const inputRef = useRef(null);
-  const fileInputRef = useRef(null);
   const recognitionRef = useRef(null);
   const { t } = useTranslation(currentLanguage);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if ((message.trim() || filesToSend.length > 0) && !isLoading) {
-      onSendMessage(message, filesToSend);
+    if (message.trim() && !isLoading) {
+      await onSendMessage(message);
       setMessage("");
-      setFilesToSend([]);
       if (inputRef.current) {
         inputRef.current.style.height = "auto";
       }
@@ -33,112 +37,42 @@ const MessageInput = ({ onSendMessage, isLoading, currentLanguage }) => {
     }
   };
 
-  const handleFileUpload = (e) => {
-    const newFiles = Array.from(e.target.files);
-    if (newFiles.length > 0) {
-      setFilesToSend((prev) => [...prev, ...newFiles]);
-      e.target.value = null;
-    }
-  };
-
-  const removeFile = (index) => {
-    setFilesToSend((prev) => prev.filter((_, i) => i !== index));
-  };
-
   const startVoiceRecording = () => {
     setRecordingError(null);
     setMessage("");
 
     if (!("webkitSpeechRecognition" in window)) {
-      setRecordingError("Reconnaissance vocale non supportée");
+      setRecordingError(
+        t("voiceNotSupported") || "Voice recognition not supported"
+      );
       return;
     }
 
-    // Demander la permission d'utiliser le microphone
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(() => {
-        // Permission accordée, démarrer la reconnaissance vocale
-        setIsRecording(true);
-        setIsListening(true);
+    recognitionRef.current = new window.webkitSpeechRecognition();
+    recognitionRef.current.continuous = false;
+    recognitionRef.current.interimResults = true;
+    recognitionRef.current.lang = currentLanguage === "fr" ? "fr-FR" : "en-US";
 
-        recognitionRef.current = new window.webkitSpeechRecognition();
-        recognitionRef.current.continuous = true;
-        recognitionRef.current.interimResults = true; // Activer les résultats intermédiaires
-        recognitionRef.current.lang = "fr-FR";
-
-        recognitionRef.current.onresult = (event) => {
-          let interimTranscript = "";
-          let finalTranscript = "";
-
-          for (let i = event.resultIndex; i < event.results.length; i++) {
-            const transcript = event.results[i][0].transcript;
-            if (event.results[i].isFinal) {
-              finalTranscript += transcript;
-            } else {
-              interimTranscript += transcript;
-            }
-          }
-
-          // Afficher le texte intermédiaire en temps réel
-          setMessage(finalTranscript + interimTranscript);
-        };
-
-        recognitionRef.current.onerror = (event) => {
-          handleRecognitionError(event.error);
-        };
-
-        recognitionRef.current.onend = () => {
-          setIsRecording(false);
-          setIsListening(false);
-        };
-
-        recognitionRef.current.start();
-      })
-      .catch((err) => {
-        handleRecognitionError(err);
-      });
-  };
-
-  const handleRecognitionError = (error) => {
-    let errorMessage = "Erreur d'accès au microphone";
-
-    switch (error) {
-      case "NotAllowedError":
-      case "PermissionDeniedError":
-        errorMessage =
-          "Microphone bloqué par le système. Vérifiez les paramètres de votre OS";
-        break;
-      case "audio-capture":
-        errorMessage = "Aucun microphone détecté";
-        break;
-      case "NotSupportedError":
-        errorMessage = "Fonction non supportée dans ce navigateur";
-        break;
-      default:
-        errorMessage = `Erreur: ${error}`;
-    }
-
-    setRecordingError(errorMessage);
-    setIsRecording(false);
-    setIsListening(false);
-  };
-
-  const stopVoiceRecording = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-      setIsRecording(false);
-      setIsListening(false);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
+    recognitionRef.current.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .map((result) => result[0])
+        .map((result) => result.transcript)
+        .join("");
+      setMessage(transcript);
     };
-  }, []);
+
+    recognitionRef.current.onerror = (event) => {
+      setRecordingError(event.error);
+      setIsRecording(false);
+    };
+
+    recognitionRef.current.onend = () => {
+      setIsRecording(false);
+    };
+
+    recognitionRef.current.start();
+    setIsRecording(true);
+  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -164,62 +98,19 @@ const MessageInput = ({ onSendMessage, isLoading, currentLanguage }) => {
         <div className="recording-error">{recordingError}</div>
       )}
 
-      {filesToSend.length > 0 && (
-        <div className="files-preview-container">
-          {filesToSend.map((file, index) => (
-            <div key={index} className="file-preview-item">
-              <span>{file.name}</span>
-              <button
-                type="button"
-                onClick={() => removeFile(index)}
-                className="remove-file-button"
-              >
-                <FiX />
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-
       <div className="input-wrapper">
-        <div className="input-actions">
-          <button
-            type="button"
-            className={`action-button ${isRecording ? "recording" : ""} ${
-              isListening ? "listening" : ""
-            }`}
-            onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
-            title="Saisie vocale"
-          >
-            {isRecording ? (
-              <div className="voice-animation">
-                <div className="voice-dot"></div>
-                <div className="voice-dot"></div>
-                <div className="voice-dot"></div>
-              </div>
-            ) : (
-              <FiMic />
-            )}
-          </button>
-          <button
-            type="button"
-            className="action-button"
-            onClick={() => fileInputRef.current.click()}
-            title="Joindre un fichier"
-          >
-            <FiPaperclip />
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileUpload}
-              style={{ display: "none" }}
-              multiple
-            />
-          </button>
-        </div>
+        <button
+          type="button"
+          className={`action-button ${isRecording ? "recording" : ""}`}
+          onClick={startVoiceRecording}
+          title={t("voiceInput")}
+          disabled={isRecording}
+        >
+          <FiMic />
+        </button>
 
         <textarea
-          rows="2"
+          rows="1"
           ref={inputRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -231,11 +122,9 @@ const MessageInput = ({ onSendMessage, isLoading, currentLanguage }) => {
 
         <button
           type="submit"
-          className={`send-button ${
-            message.trim() || filesToSend.length > 0 ? "active" : ""
-          }`}
-          disabled={(!message.trim() && filesToSend.length === 0) || isLoading}
-          title="Envoyer"
+          className={`send-button ${message.trim() ? "active" : ""}`}
+          disabled={!message.trim() || isLoading}
+          title={t("send")}
         >
           <FiSend />
         </button>
