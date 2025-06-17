@@ -1,5 +1,6 @@
 {
   "fr": {
+    "chat": "Discussion",
     "newChat": "Nouveau chat",
     "user": "Utilisateur",
     "settings": "Paramètres",
@@ -9,6 +10,7 @@
     "writeMessage": "Écrivez un message..."
   },
   "en": {
+    "chat": "Chat",
     "newChat": "New chat",
     "user": "User",
     "settings": "Settings",
@@ -18,6 +20,7 @@
     "writeMessage": "Write a message..."
   },
   "mg": {
+    "chat": "Tarogna",
     "newChat": "Resaka vaovao",
     "user": "Mpampiasa",
     "settings": "Fandaharana",
@@ -27,6 +30,7 @@
     "writeMessage": "Soraty hafatra..."
   },
   "es": {
+    "chat": "Chat",
     "newChat": "Nuevo chat",
     "user": "Usuario",
     "settings": "Ajustes",
@@ -36,6 +40,7 @@
     "writeMessage": "Escribe un mensaje..."
   },
   "de": {
+    "chat": "Chat",
     "newChat": "Neuer Chat",
     "user": "Benutzer",
     "settings": "Einstellungen",
@@ -45,6 +50,7 @@
     "writeMessage": "Schreiben Sie eine Nachricht..."
   },
   "it": {
+    "chat": "Chat",
     "newChat": "Nuova chat",
     "user": "Utente",
     "settings": "Impostazioni",
@@ -54,6 +60,7 @@
     "writeMessage": "Scrivi un messaggio..."
   },
   "pt": {
+    "chat": "Bate-papo",
     "newChat": "Novo chat",
     "user": "Usuário",
     "settings": "Configurações",
@@ -63,6 +70,7 @@
     "writeMessage": "Escreva uma mensagem..."
   },
   "ru": {
+    "chat": "Чат",
     "newChat": "Новый чат",
     "user": "Пользователь",
     "settings": "Настройки",
@@ -72,6 +80,7 @@
     "writeMessage": "Напишите сообщение..."
   },
   "zh": {
+    "chat": "聊天",
     "newChat": "新聊天",
     "user": "用户",
     "settings": "设置",
@@ -81,6 +90,7 @@
     "writeMessage": "写消息..."
   },
   "ja": {
+    "chat": "チャット",
     "newChat": "新しいチャット",
     "user": "ユーザー",
     "settings": "設定",
@@ -90,6 +100,7 @@
     "writeMessage": "メッセージを書く..."
   },
   "ar": {
+    "chat": "دردشة",
     "newChat": "محادثة جديدة",
     "user": "مستخدم",
     "settings": "الإعدادات",
